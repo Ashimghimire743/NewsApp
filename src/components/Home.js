@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-const Home = () => {
+const Home = (props) => {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=38f9594212fb4ac4a37e9a36c1e8194e');
+        const response = await fetch(`https://newsapi.org/v2/top-headlines?country=${props.country}&apiKey=38f9594212fb4ac4a37e9a36c1e8194e`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -19,7 +19,7 @@ const Home = () => {
     };
 
     fetchNews();
-  }, []);
+  }, [props.country]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -38,9 +38,9 @@ const Home = () => {
                 className="w-full h-64 object-cover mb-4"
               />
             )}
-            <h2 className="text-2xl font-semibold mb-2">{article.title}</h2>
             <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                  {article.title}
+            <h2 className="text-2xl font-semibold mb-2">{article.title}</h2>
+
                 </a>
             <p className="text-gray-700 mb-2">{article.description}</p>
             <p className="text-gray-600 text-sm mb-2">

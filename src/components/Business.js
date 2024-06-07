@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-const Business = () => {
-  const [articles, setArticles] = useState([]);
-  const [error, setError] = useState(null);
-  const [country, setCountry] = useState("us");
-
+const Business = (props) => {
+const [articles, setArticles] = useState([]);
+const [error, setError] = useState(null);
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(`https://newsapi.org/v2/top-headlines?country=${country}&category=business&apiKey=38f9594212fb4ac4a37e9a36c1e8194e`);
+        const response = await fetch(`https://newsapi.org/v2/top-headlines?country=${props.country}&category=business&apiKey=38f9594212fb4ac4a37e9a36c1e8194e`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -20,7 +18,7 @@ const Business = () => {
     };
 
     fetchNews();
-  }, [country]);
+  }, [props.country]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -28,16 +26,7 @@ const Business = () => {
 
   return (
     <div>
-      <select
-        value={country}
-        onChange={(e) => setCountry(e.target.value)}
-        className="mb-4 p-2 border border-gray-300"
-      >
-        <option value="in">India</option>
-        <option value="us">USA</option>
-      </select>
-
-      <div className="container mx-auto p-4">
+          <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-4">Business News</h1>
         <ul>
           {articles.map((article, index) => (
